@@ -58,7 +58,7 @@ virus_dict = {"covid": {"max_infection_rate": 0.9,
                         "min_recovery_period": 14,
                         "max_recovery_period": 31,
                         "min_carrier_period": 2,
-                        "max_carrier_period": 21}}
+                        "max_carrier_period": 7}}
 
 # Prompt the user for the name of the virus, if none is supplied the default parameters are used.
 virus_name = input(
@@ -231,7 +231,6 @@ for vac_rate in vac_rates:
         # plot the population change over time
         cla()
         plot(total_casualty_ts, color='orange')
-        plot(basic_reproduction_number_ts)
         tight_layout()
         title('Total casualties')
 
@@ -260,7 +259,9 @@ for vac_rate in vac_rates:
                                    "total_infected_ts": total_infected_ts,
                                    "casualty_ts": casualty_ts,
                                    "total_casualty_ts": total_casualty_ts,
-                                   "basic_reproduction_number_ts": basic_reproduction_number_ts}
+                                   "basic_reproduction_number_ts": basic_reproduction_number_ts,
+                                   "agents": agents,
+                                   "agent_immunity": [ag.immune for ag in agents]}
 
                 with open(pkl_file, 'wb') as handle:
                     pickle.dump(statistics_dict, handle, protocol=pickle.HIGHEST_PROTOCOL)
