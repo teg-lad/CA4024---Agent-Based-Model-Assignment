@@ -1,6 +1,7 @@
 import math
 from pathlib import Path
 from datetime import datetime
+import pickle
 
 # This has to be put here as the imports
 # Time for use when creating output
@@ -59,22 +60,26 @@ virus_dict = {"covid": {"max_infection_rate": 0.9,
                         "min_carrier_period": 1,
                         "max_carrier_period": 5}}
 
+# Prompt the user for the name of the virus, if none is supplied the default parameters are used.
 virus_name = input(
     "Please enter the name of a virus to simulate from the following: Covid, Influenza. Press enter to continue to "
     "custom selection.")
 
 virus_name = virus_name.strip().lower()
 
+# If we have parameters for the given virus name, select and load them.
 if virus_name in virus_dict.keys():
     print("A virus with this name has been found. Loading variables...")
 
     params = virus_dict[virus_name]
 
 else:
+    # If the supplied name (or no input is given) is not in the dictionary, use the default values.
     virus_name = "default"
     print("No value was passed or no virus was found with that name, the default values are in use."
           "To change the values please go to the parameter tab and update the parameters")
 
+# load the parameters.
 max_infection_rate = params["max_infection_rate"]
 case_fatality_rate = params["case_fatality_rate"]
 min_recovery_period = params["min_recovery_period"]
@@ -83,10 +88,11 @@ min_carrier_period = params["min_carrier_period"]
 max_carrier_period = params["max_carrier_period"]
 
 # Death probability option 1, inverse geometric. So the cumulative probability up to the mean recovery is roughly equal
-# to the case fatality. After this the point the probabilities are mirrored and decrease as the agent gets closer to
-# recovery. The motivation is that the agent will be less likely to die as they recover.
+# to the case fatality. After this  point the probabilities are mirrored and decrease as the agent gets closer to
+# recovery. The motivation is that the agent will be more likely to die as the illness progresses and then less likely
+# as they recover once the pass the mean recovery time.
 mean_recovery_period = round((min_recovery_period + max_recovery_period) / 2)
-prob_death = 1 - (case_fatality_rate ** (1 / mean_recovery_period))  # death probability = the case fatality ^ (mean recovery period)
+prob_death = 1 - (case_fatality_rate ** (1 / mean_recovery_period))
 
 # Death probability option 2, equal probs. The case fatality rate is divided by the mean recovery period to find the
 # probability at each time step. This means that the cumulative probability by the mean recovery time is equal to the
@@ -99,10 +105,11 @@ rec_time_range = [min_recovery_period, max_recovery_period]  # time frame in whi
 carrier_time_range = [min_carrier_period, max_carrier_period]  # Time frame when an agent is a carrier
 
 vac_rates = [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9,
-             1.0]  # percentage of agents that are immune at the start. Changes for each sim run
+             1.0]  # percentage of agents that are immune (vaccinated) at the start. Changes for each sim run
 
 cd = 0.05  # neighborhood radius
 
+# Path to store the output.
 output_path = Path.cwd() / "Simulations" / f"{virus_name}_{timestamp}"
 output_path.mkdir(parents=True, exist_ok=True)
 
@@ -110,14 +117,15 @@ output_path.mkdir(parents=True, exist_ok=True)
 class agent:
     pass
 
-
+# For each of the vaccination rates, run the experiments.
+# Note: the simulation stops updating but does not stop running as pycxsimulator keeps calling the functions.
 for vac_rate in vac_rates:
     def initialize():
         """
-        This function initializes the simulation. It spawns the agents, assigns them types and random co-ordinates within
-        the environment.
+        This function initializes the simulation. It spawns the agents, assigns them types and random co-ordinates
+        within the environment.
         """
-        global agents, time, agents_path, final_plots_path
+        global agents, time, current_output_path, agents_path, final_plots_path
         global total_infected, total_casualties
         global infected_ts, total_infected_ts, casualty_ts, total_casualty_ts, basic_reproduction_number_ts
 
@@ -132,6 +140,8 @@ for vac_rate in vac_rates:
             ag = agent()
             ag.type = 'susceptible'
             ag.immune = False
+            ag.prior_infection = False
+            ag.new_infection = False
 
             # randomly assign immune to "vac_rate"% of agents.
             if random() < vac_rate:
@@ -139,9 +149,12 @@ for vac_rate in vac_rates:
 
             # start with just 1 infected agent.
             if i >= pop_init - infected_init:
-                # Give the agent type infected, an attribute to store the time infected and a randomly sampled recovery time
-                # from a uniform distribution between a minimum and amximum.
+
+                # Give the agent type infected, an attribute to store the time infected and a randomly sampled
+                # recovery time from a uniform distribution between a minimum and maximum.
                 ag.type = 'infected'
+                ag.prior_infection = True
+                ag.new_infection = True
                 ag.infected_time = 0
                 ag.rec_time = uniform(rec_time_range[0], rec_time_range[1])
 
@@ -150,7 +163,7 @@ for vac_rate in vac_rates:
             ag.y = random()
 
             # Give the agent an attribute to record how many agents they infect in a time step (Needed to calculate the
-            # basic reproduction rate).
+            # basic reproduction number).
             ag.no_infected = 0
 
             # Append the agents to a list.
@@ -168,7 +181,8 @@ for vac_rate in vac_rates:
         basic_reproduction_number_ts = [0]
 
         # Set up the directories for storing the output images
-        plot_path = output_path / f"vac_rate_{str(vac_rate)}" / "Plots"
+        current_output_path = output_path / f"vac_rate_{str(vac_rate)}"
+        plot_path = current_output_path / "Plots"
 
         agents_path = plot_path / "agents"
         final_plots_path = plot_path / "final"
@@ -182,11 +196,11 @@ for vac_rate in vac_rates:
         This function oberves the current state of all agents and updates the variables for storing data regarding the state
         of the simulation.
         """
-        global agents, time, agents_path, final_plots_path
+        global agents, time, current_output_path, agents_path, final_plots_path
         global infected_ts, total_infected_ts, casualty_ts, total_casualty_ts, basic_reproduction_number_ts
 
         # Create a subplot for displaying the agents in the environment.
-        subplot(2, 1, 1)
+        subplot(3, 1, (1,2))
 
         plt.show()
 
@@ -198,7 +212,6 @@ for vac_rate in vac_rates:
         carrier = [ag for ag in agents if ag.type == 'carrier']
         infected = [ag for ag in agents if ag.type == 'infected']
         immune = [ag for ag in agents if ag.type == 'susceptible' and ag.immune]
-        print(len(immune))
 
         # Plot the agents on the space in their respective colours.
         scatter([ag.x for ag in susceptible], [ag.y for ag in susceptible], color='green', marker='o',
@@ -211,11 +224,11 @@ for vac_rate in vac_rates:
         axis([0, 1, 0, 1])
         title(f't = {time}_vaccination_rate_{vac_rate}')
 
-        subplot(2, 1, 2)
+        subplot(3, 1, 3)
         # plot the population change over time
         cla()
         plot(total_casualty_ts, color='orange')
-        # ax3.plot(basic_reproduction_number_ts, color='blue')
+        plot(basic_reproduction_number_ts)
         tight_layout()
         title('Total casualties')
 
@@ -223,15 +236,25 @@ for vac_rate in vac_rates:
 
 
     def update():
-        global agents, time
+        global agents, time, current_output_path
         global daily_infected, daily_casualties
         global total_infected, total_casualties
-        global infected_ts, total_infected_ts, casualty_ts, total_casualty_ts
+        global infected_ts, total_infected_ts, casualty_ts, total_casualty_ts, basic_reproduction_number_ts
 
         # if there are no agents left, end
         carrier = [ag for ag in agents if ag.type == 'carrier']
         infected = [ag for ag in agents if ag.type == 'infected']
         if not carrier and not infected:
+            pkl_file = current_output_path / "statistics.pkl"
+            if not pkl_file.exists():
+                statistics_dict = {"infected_ts": infected_ts,
+                                   "total_infected_ts": total_infected_ts,
+                                   "casualty_ts": casualty_ts,
+                                   "total_casualty_ts": total_casualty_ts,
+                                   "basic_reproduction_number_ts": basic_reproduction_number_ts}
+
+                with open(pkl_file, 'wb') as handle:
+                    pickle.dump(statistics_dict, handle, protocol=pickle.HIGHEST_PROTOCOL)
             return
 
         # randomly choose an agent to move (asynchronous updating)
@@ -266,9 +289,12 @@ for vac_rate in vac_rates:
                 if infection_rate > 0:
 
                     if random() < infection_rate:
-                        closest_nb.no_infected += 1
+                        if not ag.prior_infection:
+                            ag.prior_infection = True
+                            ag.new_infection = True
+                            ag.basic_reproductive_time = 2
+                            closest_nb.no_infected += 1
 
-                        # ag.type = 'infected'
                         ag.type = 'carrier'
 
                         ag.rec_time = uniform(rec_time_range[0], rec_time_range[1])
@@ -346,12 +372,12 @@ for vac_rate in vac_rates:
         total_infected_ts.append(total_infected)
         total_casualty_ts.append(total_casualties)
 
-        basic_reproduction_number_ts.append(np.mean([ag.no_infected for ag in agents if ag.no_infected > 0]))
+        basic_reproduction_number_ts.append(np.mean([ag.no_infected for ag in agents if ag.new_infection]))
 
         # then reset it for the next time step
         for ag in agents:
             ag.no_infected = 0
-
+            ag.new_infection = False
 
     def max_infection_rate_param(val=max_infection_rate):
         global max_infection_rate
