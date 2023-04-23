@@ -62,8 +62,8 @@ virus_dict = {"covid": {"max_infection_rate": 0.9,
 
 # Prompt the user for the name of the virus, if none is supplied the default parameters are used.
 virus_name = input(
-    "Please enter the name of a virus to simulate from the following: Covid, Influenza. Press enter to continue to "
-    "custom selection.")
+    "Please enter the name of a virus to simulate from the following: [Covid, Marburg].\n"
+    "Press enter to continue with default parameters (These can be changed in the GUI).\n")
 
 virus_name = virus_name.strip().lower()
 
