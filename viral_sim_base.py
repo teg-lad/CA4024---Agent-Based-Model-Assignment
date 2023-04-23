@@ -281,7 +281,7 @@ for vac_rate in vac_rates:
 
             # Get the distances to the infected agents.
             squared_distance_to_infected = {nb: (((ag.x - nb.x) ** 2) + (ag.y - nb.y) ** 2) for nb in agents if
-                                            nb.type == 'infected'}
+                                            nb.type == 'infected' or nb.type == 'carrier'}
 
             # If we have more than one infected.
             if len(squared_distance_to_infected) > 0:
