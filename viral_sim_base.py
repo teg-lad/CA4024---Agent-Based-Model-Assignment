@@ -137,6 +137,9 @@ for vac_rate in vac_rates:
         agents = []
         time = 0
 
+        # Set the seed here so that the agent initialization is constant and reproducible.
+        seed(42)
+
         # initialise population.
         for i in range(pop_init):
 
