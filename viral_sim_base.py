@@ -132,7 +132,7 @@ def initialize():
     This function initializes the simulation. It spawns the agents, assigns them types and random co-ordinates
     within the environment.
     """
-    global agents, time, current_output_path, agents_path, final_plots_path
+    global agents, time, current_output_path, agents_path
     global total_infected, total_casualties
     global infected_ts, total_infected_ts, casualty_ts, total_casualty_ts, basic_reproduction_number_ts
 
@@ -194,10 +194,8 @@ def initialize():
     plot_path = current_output_path / "Plots"
 
     agents_path = plot_path / "agents"
-    final_plots_path = plot_path / "final"
 
     agents_path.mkdir(parents=True, exist_ok=True)
-    final_plots_path.mkdir(parents=True, exist_ok=True)
 
 
 def observe():
@@ -205,7 +203,7 @@ def observe():
     This function oberves the current state of all agents and updates the variables for storing data regarding the state
     of the simulation.
     """
-    global agents, time, current_output_path, agents_path, final_plots_path
+    global agents, time, current_output_path, agents_path
     global infected_ts, total_infected_ts, casualty_ts, total_casualty_ts, basic_reproduction_number_ts
 
     # Create a subplot for displaying the agents in the environment.
