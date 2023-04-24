@@ -23,6 +23,8 @@ The output generated is saved into a new subdirectory in the Simulations
 directory. The output consists of the Plots/agents directory that contains the saved
 images of the simulation environment that are used to generate a GIF of the simulation.
 
+![Sample GIF](Simulations/covid_2023-04-23-18-45-35/vac_rate_0/sim.gif "GIF of a simulation.")
+
 ## Table of Contents
 
 + [Project Report](CA4024_ABM_Assignment_Report.pdf) - PDF report for this assignment.
