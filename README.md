@@ -1,92 +1,71 @@
 # CA4024 - Agent Based Model Assignment
 
+This repo contains the code for and results from the agent based model we have created
+to model the spread of a disease through a population.
+
+## Running the model
+
+The model can be run from the commandline by calling *python viral_sim_base.py*.
+
+![Image displaying virus selection](images/virus_selection.png "Virus selection")
+
+The user is prompted to enter the name of a virus to simulate, which pulls the values
+from the parameters saved in the script. If no virus is entered then the default
+values are used in the simulation.
+
+Once the simulation has started, the parameter values can be changed within the GUI
+in the parameter tab. Once these values are changed the simulation can be reset
+and ran from the start.
+
+![Image displaying GUI parameter tab](images/parameters.png "Parameter Selection")
+
+The output generated is saved into a new subdirectory in the Simulations
+directory. The output consists of the Plots/agents directory that contains the saved
+images of the simulation environment that are used to generate a GIF of the simulation.
+
+## Table of Contents
+
++ [Project Report](CA4024_ABM_Assignment_Report.pdf) - PDF report for this assignment.
++ [Viral Simulation Script](viral_sim_base.py) - Main script containing the simulation code.
++ [Visualisation Notebook](results_vis.ipynb) - Jupyter Notebook that contains the code used to generate the visualisations.
++ [GIF Creation Script](gif_creation.py) - Script used to generate the GIFs of the simulations
++ [Images](images/) - Directory containing the images used in the report and README.md file.
++ [Simulations](Simulations/) - Directory that contains the results from simulations runs.
+  + [Covid Simulation Results](Simulations/covid_2023-04-23-18-45-35/) - Results of the Covid simulation run.
+    + [Covid Simulation GIF Vaccination 0.0](Simulations/covid_2023-04-23-18-45-35/vac_rate_0/sim.gif) - GIF of Covid simulation with vaccination rate 0.0.
+    + [Covid Simulation GIF Vaccination 0.1](Simulations/covid_2023-04-23-18-45-35/vac_rate_0.1/sim.gif) - GIF of Covid simulation with vaccination rate 0.1.
+    + [Covid Simulation GIF Vaccination 0.2](Simulations/covid_2023-04-23-18-45-35/vac_rate_0.2/sim.gif) - GIF of Covid simulation with vaccination rate 0.2.
+    + [Covid Simulation GIF Vaccination 0.3](Simulations/covid_2023-04-23-18-45-35/vac_rate_0.3/sim.gif) - GIF of Covid simulation with vaccination rate 0.3.
+    + [Covid Simulation GIF Vaccination 0.4](Simulations/covid_2023-04-23-18-45-35/vac_rate_0.4/sim.gif) - GIF of Covid simulation with vaccination rate 0.4.
+    + [Covid Simulation GIF Vaccination 0.5](Simulations/covid_2023-04-23-18-45-35/vac_rate_0.5/sim.gif) - GIF of Covid simulation with vaccination rate 0.5.
+    + [Covid Simulation GIF Vaccination 0.6](Simulations/covid_2023-04-23-18-45-35/vac_rate_0.6/sim.gif) - GIF of Covid simulation with vaccination rate 0.6.
+    + [Covid Simulation GIF Vaccination 0.7](Simulations/covid_2023-04-23-18-45-35/vac_rate_0.7/sim.gif) - GIF of Covid simulation with vaccination rate 0.7.
+    + [Covid Simulation GIF Vaccination 0.8](Simulations/covid_2023-04-23-18-45-35/vac_rate_0.8/sim.gif) - GIF of Covid simulation with vaccination rate 0.8.
+    + [Covid Simulation GIF Vaccination 0.9](Simulations/covid_2023-04-23-18-45-35/vac_rate_0.9/sim.gif) - GIF of Covid simulation with vaccination rate 0.9.
+    + [Covid Simulation GIF Vaccination 1.0](Simulations/covid_2023-04-23-18-45-35/vac_rate_1.0/sim.gif) - GIF of Covid simulation with vaccination rate 1.0.
+  + [Marburg Simulation Results (Dynamic Death Rate)](Simulations/marburg_dynamic_death_rate/) - Results of the Marburg simulation (Dynamic Death Rate) run.
+    + [Marburg Simulation (Dynamic Death Rate) GIF Vaccination 0.0](Simulations/marburg_dynamic_death_rate/vac_rate_0/sim.gif) - GIF of Marburg simulation (Dynamic Death Rate) with vaccination rate 0.0.
+    + [Marburg Simulation (Dynamic Death Rate) GIF Vaccination 0.1](Simulations/marburg_dynamic_death_rate/vac_rate_0.1/sim.gif) - GIF of Marburg simulation (Dynamic Death Rate) with vaccination rate 0.1.
+    + [Marburg Simulation (Dynamic Death Rate) GIF Vaccination 0.2](Simulations/marburg_dynamic_death_rate/vac_rate_0.2/sim.gif) - GIF of Marburg simulation (Dynamic Death Rate) with vaccination rate 0.2.
+    + [Marburg Simulation (Dynamic Death Rate) GIF Vaccination 0.3](Simulations/marburg_dynamic_death_rate/vac_rate_0.3/sim.gif) - GIF of Marburg simulation (Dynamic Death Rate) with vaccination rate 0.3.
+    + [Marburg Simulation (Dynamic Death Rate) GIF Vaccination 0.4](Simulations/marburg_dynamic_death_rate/vac_rate_0.4/sim.gif) - GIF of Marburg simulation (Dynamic Death Rate) with vaccination rate 0.4.
+    + [Marburg Simulation (Dynamic Death Rate) GIF Vaccination 0.5](Simulations/marburg_dynamic_death_rate/vac_rate_0.5/sim.gif) - GIF of Marburg simulation (Dynamic Death Rate) with vaccination rate 0.5.
+    + [Marburg Simulation (Dynamic Death Rate) GIF Vaccination 0.6](Simulations/marburg_dynamic_death_rate/vac_rate_0.6/sim.gif) - GIF of Marburg simulation (Dynamic Death Rate) with vaccination rate 0.6.
+    + [Marburg Simulation (Dynamic Death Rate) GIF Vaccination 0.7](Simulations/marburg_dynamic_death_rate/vac_rate_0.7/sim.gif) - GIF of Marburg simulation (Dynamic Death Rate) with vaccination rate 0.7.
+    + [Marburg Simulation (Dynamic Death Rate) GIF Vaccination 0.8](Simulations/marburg_dynamic_death_rate/vac_rate_0.8/sim.gif) - GIF of Marburg simulation (Dynamic Death Rate) with vaccination rate 0.8.
+    + [Marburg Simulation (Dynamic Death Rate) GIF Vaccination 0.9](Simulations/marburg_dynamic_death_rate/vac_rate_0.9/sim.gif) - GIF of Marburg simulation (Dynamic Death Rate) with vaccination rate 0.9.
+    + [Marburg Simulation (Dynamic Death Rate) GIF Vaccination 1.0](Simulations/marburg_dynamic_death_rate/vac_rate_1.0/sim.gif) - GIF of Marburg simulation (Dynamic Death Rate) with vaccination rate 1.0.
+  + [Marburg Simulation Results (Static Death Rate)](Simulations/marburg_static_death_rate/) - Results of the Marburg simulation (Static Death Rate) run.
+    + [Marburg Simulation (Static Death Rate) GIF Vaccination 0.0](Simulations/marburg_static_death_rate/vac_rate_0/sim.gif) - GIF of Marburg simulation (Static Death Rate) with vaccination rate 0.0.
+    + [Marburg Simulation (Static Death Rate) GIF Vaccination 0.1](Simulations/marburg_static_death_rate/vac_rate_0.1/sim.gif) - GIF of Marburg simulation (Static Death Rate) with vaccination rate 0.1.
+    + [Marburg Simulation (Static Death Rate) GIF Vaccination 0.2](Simulations/marburg_static_death_rate/vac_rate_0.2/sim.gif) - GIF of Marburg simulation (Static Death Rate) with vaccination rate 0.2.
+    + [Marburg Simulation (Static Death Rate) GIF Vaccination 0.3](Simulations/marburg_static_death_rate/vac_rate_0.3/sim.gif) - GIF of Marburg simulation (Static Death Rate) with vaccination rate 0.3.
+    + [Marburg Simulation (Static Death Rate) GIF Vaccination 0.4](Simulations/marburg_static_death_rate/vac_rate_0.4/sim.gif) - GIF of Marburg simulation (Static Death Rate) with vaccination rate 0.4.
+    + [Marburg Simulation (Static Death Rate) GIF Vaccination 0.5](Simulations/marburg_static_death_rate/vac_rate_0.5/sim.gif) - GIF of Marburg simulation (Static Death Rate) with vaccination rate 0.5.
+    + [Marburg Simulation (Static Death Rate) GIF Vaccination 0.6](Simulations/marburg_static_death_rate/vac_rate_0.6/sim.gif) - GIF of Marburg simulation (Static Death Rate) with vaccination rate 0.6.
+    + [Marburg Simulation (Static Death Rate) GIF Vaccination 0.7](Simulations/marburg_static_death_rate/vac_rate_0.7/sim.gif) - GIF of Marburg simulation (Static Death Rate) with vaccination rate 0.7.
+    + [Marburg Simulation (Static Death Rate) GIF Vaccination 0.8](Simulations/marburg_static_death_rate/vac_rate_0.8/sim.gif) - GIF of Marburg simulation (Static Death Rate) with vaccination rate 0.8.
+    + [Marburg Simulation (Static Death Rate) GIF Vaccination 0.9](Simulations/marburg_static_death_rate/vac_rate_0.9/sim.gif) - GIF of Marburg simulation (Static Death Rate) with vaccination rate 0.9.
+    + [Marburg Simulation (Static Death Rate) GIF Vaccination 1.0](Simulations/marburg_static_death_rate/vac_rate_1.0/sim.gif) - GIF of Marburg simulation (Static Death Rate) with vaccination rate 1.0.
 
 
-## Getting started
-
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
-
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
-
-## Add your files
-
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/ee/gitlab-basics/add-file.html#add-a-file-using-the-command-line) or push an existing Git repository with the following command:
-
-```
-cd existing_repo
-git remote add origin https://gitlab.computing.dcu.ie/tegarta2/ca4024-agent-based-model-assignment.git
-git branch -M main
-git push -uf origin main
-```
-
-## Integrate with your tools
-
-- [ ] [Set up project integrations](https://gitlab.computing.dcu.ie/tegarta2/ca4024-agent-based-model-assignment/-/settings/integrations)
-
-## Collaborate with your team
-
-- [ ] [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Automatically merge when pipeline succeeds](https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html)
-
-## Test and Deploy
-
-Use the built-in continuous integration in GitLab.
-
-- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/index.html)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing(SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
-
-***
-
-# Editing this README
-
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thank you to [makeareadme.com](https://www.makeareadme.com/) for this template.
-
-## Suggestions for a good README
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
-
-## Name
-Choose a self-explaining name for your project.
-
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
-
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
-
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
-
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
-
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
-
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
-
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
-
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
-
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
-
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
-
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
-
-## License
-For open source projects, say how it is licensed.
-
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
